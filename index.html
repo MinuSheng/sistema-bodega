@@ -122,7 +122,6 @@
             th, td { padding: 4px 2px !important; border-bottom: 1px dashed #ccc !important;}
         }
     </style>
-    <script src="https://unpkg.com/html5-qrcode" async></script>
 </head>
 <body>
 
@@ -130,7 +129,7 @@
         <div class="vault-box">
             <h2>⚠️ BÓVEDA CERRADA</h2>
             <p style="font-size: 0.9rem; color: #9ca3af; margin-bottom: 25px;">Sistema privado. Solicita tu PIN mensual al administrador usando este ID:</p>
-            <div class="device-id-box" id="display-device-id">CARGANDO...</div>
+            <div class="device-id-box" id="display-device-id">INICIANDO...</div>
             <label style="text-align: left; color: #9ca3af;">PIN de Autorización:</label>
             <input type="text" id="input-pin" placeholder="••••••" style="font-size: 1.5rem; text-align: center; text-transform: uppercase; letter-spacing: 5px;">
             <button class="btn-action btn-success" onclick="verificarLicencia()">🔓 Acceder al Sistema</button>
@@ -157,7 +156,7 @@
             <div class="module-card" onclick="showView('view-salida')">
                 <span class="module-icon">🛒</span><span>Punto<br>de Venta</span>
             </div>
-            <div class="module-card" onclick="openScanner()">
+            <div class="module-card" onclick="iniciarEscaner()">
                 <span class="module-icon">📲</span><span>Escáner<br>de Códigos</span>
             </div>
             <div class="module-card" onclick="showView('view-historial')" style="grid-column: span 2; flex-direction: row;">
@@ -303,4 +302,6 @@
 
         <div id="view-historial" class="view-section">
             <div class="card" style="overflow-x: auto; padding: 15px;">
-                <
+                <h3>📋 Registro de Movimientos</h3>
+                <table>
+  
