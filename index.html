@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Inventario y Caja</title>
-    <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         :root { 
-            --primary: #1e3a8a; /* Azul corporativo oscuro */
-            --secondary: #10b981; /* Verde esmeralda */
+            --primary: #1e3a8a; 
+            --secondary: #10b981; 
             --bg-color: #f3f4f6; 
             --text-dark: #1f2937; 
             --card-bg: #ffffff;
@@ -57,7 +56,6 @@
         }
         .module-card:active { transform: scale(0.96); }
         .module-icon { font-size: 2.2rem; }
-        
         .module-full { grid-column: span 2; padding: 15px; flex-direction: row; font-size: 0.95rem; color: #ef4444; background: #fef2f2; border-color: #fecaca;}
 
         .view-section { display: none; padding: 20px; }
@@ -80,14 +78,11 @@
         th { background: #f3f4f6; color: #374151; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; padding: 12px 10px;}
         td { padding: 12px 10px; border-bottom: 1px solid #e5e7eb; font-size: 0.95rem; vertical-align: middle;}
         
-        /* BOTONES DE EDICIÓN EN TABLA */
         .btn-icon { background: none; border: none; padding: 5px; font-size: 1.2rem; cursor: pointer; border-radius: 5px; margin-left: 5px; box-shadow: none; width: auto;}
         
-        /* MODAL DE EDICIÓN */
         #edit-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px;}
         .modal-content { background: white; padding: 25px; border-radius: 16px; width: 100%; max-width: 350px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);}
 
-        /* BILLETES Y MONEDAS CORREGIDOS */
         .dinero-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; align-items: center; }
         .dinero-img { width: 100%; height: 75px; object-fit: contain; cursor: pointer; transition: transform 0.1s; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.15));}
         .dinero-img:active { transform: scale(0.92); }
@@ -96,7 +91,6 @@
         #cambio-visual { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; justify-content: center;}
         .dinero-mini { height: 35px; object-fit: contain; }
 
-        /* BUSCADOR MODAL */
         .search-item { padding: 15px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .search-item:active { background-color: #f3f4f6; }
         .search-title { font-weight: 700; font-size: 1.1rem; color: var(--primary);}
@@ -107,7 +101,6 @@
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-        /* MODO OSCURO AUTOMÁTICO */
         @media (prefers-color-scheme: dark) {
             :root { --bg-color: #111827; --text-dark: #f3f4f6; --card-bg: #1f2937; --border-color: #374151; }
             .card h3 { color: #60a5fa; }
@@ -129,6 +122,7 @@
             th, td { padding: 4px 2px !important; border-bottom: 1px dashed #ccc !important;}
         }
     </style>
+    <script src="https://unpkg.com/html5-qrcode" async></script>
 </head>
 <body>
 
@@ -155,24 +149,19 @@
     <div class="main-content">
         <div id="dashboard" class="active-view">
             <div class="module-card" onclick="showView('view-inventario')">
-                <span class="module-icon">📦</span>
-                <span>Inventario<br>y Edición</span>
+                <span class="module-icon">📦</span><span>Inventario<br>y Edición</span>
             </div>
             <div class="module-card" onclick="showView('view-entrada')">
-                <span class="module-icon">📥</span>
-                <span>Ingresar<br>Mercadería</span>
+                <span class="module-icon">📥</span><span>Ingresar<br>Mercadería</span>
             </div>
             <div class="module-card" onclick="showView('view-salida')">
-                <span class="module-icon">🛒</span>
-                <span>Punto<br>de Venta</span>
+                <span class="module-icon">🛒</span><span>Punto<br>de Venta</span>
             </div>
             <div class="module-card" onclick="openScanner()">
-                <span class="module-icon">📲</span>
-                <span>Escáner<br>de Códigos</span>
+                <span class="module-icon">📲</span><span>Escáner<br>de Códigos</span>
             </div>
             <div class="module-card" onclick="showView('view-historial')" style="grid-column: span 2; flex-direction: row;">
-                <span class="module-icon" style="font-size: 1.5rem;">📋</span>
-                <span>Historial de Movimientos</span>
+                <span class="module-icon" style="font-size: 1.5rem;">📋</span><span>Historial de Movimientos</span>
             </div>
             <div class="module-card module-full" onclick="resetearSistema()">
                 <span>⚠️ Limpiar toda la base de datos</span>
@@ -223,11 +212,9 @@
         <div id="view-salida" class="view-section">
             <div class="card">
                 <h3>🛒 Registrar Venta / Despacho</h3>
-                
                 <label>Buscar Producto:</label>
                 <button onclick="abrirBuscador()" style="text-align: left; background: var(--bg-color); color: var(--text-dark); display: flex; justify-content: space-between;">
-                    <span id="sal-producto-label" style="opacity: 0.7;">🔍 Tocar para buscar...</span>
-                    <span>▼</span>
+                    <span id="sal-producto-label" style="opacity: 0.7;">🔍 Tocar para buscar...</span><span>▼</span>
                 </button>
                 <input type="hidden" id="sal-producto">
                 
@@ -305,12 +292,15 @@
             <div class="modal-content">
                 <h3 style="margin-top: 0; color: var(--primary);">✏️ Editar Producto</h3>
                 <p id="edit-nombre" style="font-weight: bold; margin-bottom: 20px; color: var(--secondary);"></p>
-                
-                <label>Stock Físico Real:</label>
-                <input type="number" id="edit-stock" step="0.01">
-                
-                <label>Precio Actual (C$):</label>
-                <input type="number" id="edit-precio" step="0.5">
-                
+                <label>Stock Físico Real:</label><input type="number" id="edit-stock" step="0.01">
+                <label>Precio Actual (C$):</label><input type="number" id="edit-precio" step="0.5">
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
-   
+                    <button class="btn-action btn-success" onclick="guardarEdicion()">Guardar</button>
+                    <button class="btn-action btn-danger" style="background-color: #6b7280;" onclick="cerrarModalEdicion()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-historial" class="view-section">
+            <div class="card" style="overflow-x: auto; padding: 15px;">
+                <
